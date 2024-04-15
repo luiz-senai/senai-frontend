@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        .jsonKey {
+            color: red;
+            font-style: normal;
+        }
+
+        .jsonValue {
+            color: blue;
+        }
+
+        #txtJson {
+            line-height: 1.3;
+        }
+
+        .content {
+            background-color: rgb(174, 207, 207);
+            width: 300px;
+            padding: 10px 25px;
+            border: 5px solid black;
+        }
+        section{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;            
+            flex-direction: column;
+        }
+    </style>
+
+    <section>
+        <h2>
+            Formatador JSON
+        </h2>
+        <div class="content">
+            <pre id="txtJson"></pre>
+        </div>
+    </section>
+    <script>
+//        let json = `{"id":21,"sigla":"MA","nome":"Maranhão","regiao":{"id":2,"sigla":"NE","nome":"Nordeste"}}`;
+        let json = `{"id":21,"sigla":"MA","nome":"Maranhão"}`;
+        json = json.replaceAll("{", `{<br><span class='jsonKey'>&nbsp;&nbsp;`);
+        json = json.replaceAll(`:`, `</span>:<span class='jsonValue'>`);
+        json = json.replaceAll(",", `</span>,<br><span class='jsonKey'>&nbsp;&nbsp;`);
+        json = json.replaceAll("}", `</span><br>}`);
+
+        document.getElementById("txtJson").innerHTML = json;
+    </script>
+</body>
+
+</html>
