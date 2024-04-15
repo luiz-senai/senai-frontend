@@ -20,6 +20,7 @@
 
         #txtJson {
             line-height: 1.3;
+            cursor: text;
         }
 
         .content {
@@ -28,13 +29,20 @@
             padding: 10px 25px;
             border: 5px solid black;
         }
-        section{
+
+        section {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 50vh;            
+            height: 50vh;
             flex-direction: column;
         }
+
+        .jsonCaracs {
+            color: black;
+        }
+
+        .jsonObj {}
     </style>
 
     <section>
@@ -46,14 +54,33 @@
         </div>
     </section>
     <script>
-//        let json = `{"id":21,"sigla":"MA","nome":"Maranhão","regiao":{"id":2,"sigla":"NE","nome":"Nordeste"}}`;
-        let json = `{"id":21,"sigla":"MA","nome":"Maranhão"}`;
-        json = json.replaceAll("{", `{<br><span class='jsonKey'>&nbsp;&nbsp;`);
+        let json = `{"id":21,"sigla":"MA","nome":"Maranhão","regiao":{"id":2,"sigla":"NE","nome":"Nordeste"}}`;
+        // let json = `{"id":21,"sigla":"MA","nome":"Maranhão"}`;
+        json = json.replaceAll("{", `<span class='jsonObj'>{<br><span class='jsonKey'>`);
         json = json.replaceAll(`:`, `</span>:<span class='jsonValue'>`);
-        json = json.replaceAll(",", `</span>,<br><span class='jsonKey'>&nbsp;&nbsp;`);
-        json = json.replaceAll("}", `</span><br>}`);
+        json = json.replaceAll(",", `</span>,<br><span class='jsonKey'>`);
+        json = json.replaceAll("}", `</span><br>}</span>`);
+
+        json = json.replaceAll("{", `<span class='jsonCaracs'>{</span>`);
+        json = json.replaceAll("}", `<span class='jsonCaracs'>}</span>`);
+        json = json.replaceAll(":", `<span class='jsonCaracs'>:</span>`);
+        json = json.replaceAll(",", `<span class='jsonCaracs'>,</span>`);
 
         document.getElementById("txtJson").innerHTML = json;
+
+        let ls = document.getElementsByClassName('jsonObj')[0].getElementsByTagName('br');
+
+        for (o of ls) {
+            o.insertAdjacentHTML("afterend", "&nbsp;&nbsp;");
+        }
+
+        ls = document.getElementsByClassName('jsonObj')[1].getElementsByTagName('br');
+
+        for (o of ls) {
+            o.insertAdjacentHTML("afterend", "&nbsp;&nbsp;");
+        }
+
+
     </script>
 </body>
 
