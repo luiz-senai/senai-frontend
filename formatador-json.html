@@ -34,7 +34,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 50vh;
+            /* height: 50vh; */
             flex-direction: column;
         }
 
@@ -54,7 +54,7 @@
         </div>
     </section>
     <script>
-        let json = `{"id":21,"sigla":"MA","nome":"Maranhão","regiao":{"id":2,"sigla":"NE","nome":"Nordeste"}}`;
+        let json = `{"id": 3300100,"nome": "Angra dos Reis","microrregiao": {"id": 33013,"nome": "Baía da Ilha Grande","mesorregiao": {"id": 3305,"nome": "Sul Fluminense","UF": {"id": 33,"sigla": "RJ","nome": "Rio de Janeiro","regiao": {"id": 3,"sigla": "SE","nome": "Sudeste"}}}}}`;
         // let json = `{"id":21,"sigla":"MA","nome":"Maranhão"}`;
         json = json.replaceAll("{", `<span class='jsonObj'>{<br><span class='jsonKey'>`);
         json = json.replaceAll(`:`, `</span>:<span class='jsonValue'>`);
@@ -66,20 +66,25 @@
         json = json.replaceAll(":", `<span class='jsonCaracs'>:</span>`);
         json = json.replaceAll(",", `<span class='jsonCaracs'>,</span>`);
 
+        lsJson = json.split('<br>')
+
+        nvl = 0;
+        json = "";
+        for (i in lsJson) {
+            jj = lsJson[i]
+            if (jj.includes("{")) {
+                nvl++
+            }
+            if (parseInt(i) + 1 < lsJson.length) {
+                if (lsJson[parseInt(i) + 1].includes("}")) {
+                    nvl--
+                }
+            }
+            if (nvl < 0) nvl = 0;
+            json += jj + "<br>" + "&nbsp;".repeat(nvl * 2);
+        }
+
         document.getElementById("txtJson").innerHTML = json;
-
-        let ls = document.getElementsByClassName('jsonObj')[0].getElementsByTagName('br');
-
-        for (o of ls) {
-            o.insertAdjacentHTML("afterend", "&nbsp;&nbsp;");
-        }
-
-        ls = document.getElementsByClassName('jsonObj')[1].getElementsByTagName('br');
-
-        for (o of ls) {
-            o.insertAdjacentHTML("afterend", "&nbsp;&nbsp;");
-        }
-
 
     </script>
 </body>
