@@ -1,7 +1,6 @@
 document.getElementById('bt-apagar').addEventListener('click', apagar);
 document.getElementById('bt-gravar').addEventListener('click', gravar);
 document.getElementById('bt-novo').addEventListener('click', limparForm);
-let lsItem = [];
 
 let tpStatus = {
     "Em Fila": "text-bg-info",
@@ -18,7 +17,7 @@ function gravar() {
         obj.item = item;
         obj.status = status;
         if (indice == "") {
-            lsItem.push(obj);
+            lsItem.push(obj);            
         } else {
             lsItem[indice] = obj;
         }
@@ -31,6 +30,7 @@ function gravar() {
 }
 
 function ataulizarTabela() {
+    localStorage.setItem("lsItem",JSON.stringify(lsItem));
     let tbody = '';
     if (lsItem.length > 0) {
         let i = 0;
@@ -67,3 +67,10 @@ function apagar() {
         alert("Necessário selecionar algum item.")
     }
 }
+
+let lsItem = JSON.parse(localStorage.getItem("lsItem"));
+if(lsItem == null){
+    localStorage.setItem("lsItem","[]");
+    lsItem = [];
+}
+ataulizarTabela();
