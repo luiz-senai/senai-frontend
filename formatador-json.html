@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        .jsonKey {
+            color: red;
+            font-style: normal;
+        }
+
+        .jsonValue {
+            color: blue;
+        }
+
+        #txtJson {
+            line-height: 1.3;
+            cursor: text;
+        }
+
+        .content {
+            background-color: rgb(174, 207, 207);
+            width: 300px;
+            padding: 10px 25px;
+            border: 5px solid black;
+        }
+
+        section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* height: 50vh; */
+            flex-direction: column;
+        }
+
+        .jsonCaracs {
+            color: black;
+        }
+
+        .jsonObj {}
+    </style>
+
+    <section>
+        <h2>
+            Formatador JSON
+        </h2>
+        <div class="content">
+            <pre id="txtJson"></pre>
+        </div>
+    </section>
+    <script>
+        let json = `{"id": 3300100,"nome": "Angra dos Reis","microrregiao": {"id": 33013,"nome": "Baía da Ilha Grande","mesorregiao": {"id": 3305,"nome": "Sul Fluminense","UF": {"id": 33,"sigla": "RJ","nome": "Rio de Janeiro","regiao": {"id": 3,"sigla": "SE","nome": "Sudeste"}}}}}`;
+        // let json = `{"id":21,"sigla":"MA","nome":"Maranhão"}`;
+        json = json.replaceAll("{", `<span class='jsonObj'>{<br><span class='jsonKey'>`);
+        json = json.replaceAll(`:`, `</span>:<span class='jsonValue'>`);
+        json = json.replaceAll(",", `</span>,<br><span class='jsonKey'>`);
+        json = json.replaceAll("}", `</span><br>}</span>`);
+
+        json = json.replaceAll("{", `<span class='jsonCaracs'>{</span>`);
+        json = json.replaceAll("}", `<span class='jsonCaracs'>}</span>`);
+        json = json.replaceAll(":", `<span class='jsonCaracs'>:</span>`);
+        json = json.replaceAll(",", `<span class='jsonCaracs'>,</span>`);
+
+        lsJson = json.split('<br>')
+
+        nvl = 0;
+        json = "";
+        for (i in lsJson) {
+            jj = lsJson[i]
+            if (jj.includes("{")) {
+                nvl++
+            }
+            if (parseInt(i) + 1 < lsJson.length) {
+                if (lsJson[parseInt(i) + 1].includes("}")) {
+                    nvl--
+                }
+            }
+            if (nvl < 0) nvl = 0;
+            json += jj + "<br>" + "&nbsp;".repeat(nvl * 2);
+        }
+
+        document.getElementById("txtJson").innerHTML = json;
+
+    </script>
+</body>
+
+</html>
